@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 
 import * as Constants from "../constants/Constants";
 import AddPlayerForm from "../players/AddPlayerForm";
+import AddGigForm from "../gigs/AddGigForm";
 
 const MyModal = ({ handleCloser, formType }) => {
   const [show, setShow] = useState(true);
@@ -22,6 +23,13 @@ const MyModal = ({ handleCloser, formType }) => {
         <Modal.Body>
           {formType === Constants.PLAYER_ADD && (
             <AddPlayerForm
+              submitClicked={submitClicked}
+              handleClose={handleClose}
+            />
+          )}
+
+          {formType === Constants.GIG_ADD && (
+            <AddGigForm
               submitClicked={submitClicked}
               handleClose={handleClose}
             />
