@@ -1,0 +1,9 @@
+.card {
+  height: 60vh;
+  width: 80%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 5px;
+}
+
+.li {
+  transition: linear 0.2s;
+}

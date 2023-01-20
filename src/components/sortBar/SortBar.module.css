@@ -1,0 +1,58 @@
+.bar {
+  width: 100%;
+  height: 4rem;
+  /* margin-top: 7rem; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #708090;
+
+  animation: slide-down 300ms ease-out forwards;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(5rem);
+  }
+}
+
+.nav {
+  height: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.nav li {
+  font-size: 1.3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.nav a {
+  text-decoration: none;
+  color: white;
+}
+
+.optionDiv {
+  height: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+  padding: 0 3rem;
+  color: black;
+  cursor: pointer;
+}
+
+.optionDiv:hover {
+  color: red;
+}
+
+.clickedOption {
+  color: red;
+}
