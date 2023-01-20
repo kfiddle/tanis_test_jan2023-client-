@@ -5,26 +5,16 @@ import validator from "validator";
 import InputText from "../forms/InputText.js";
 import FoneInput from "../forms/FoneInput";
 
+import usePush from "../../hooks/usePush.js";
+
 import classes from "./AddPlayerForm.module.css";
 
-const nameMaker = (fullEnteredName) => {
-  if (!fullEnteredName) {
-    return;
-  }
-  const names = fullEnteredName.split(" ");
-  const tempFirstNameArea = names.slice(0, -1);
-
-  return {
-    enteredFirstNameArea: tempFirstNameArea.join(" "),
-    enteredLastName: names[names.length - 1],
-  };
-};
-
-const AddPlayerForm = ({ submitClicked }) => {
+const AddPlayerForm = ({ submitClicked, handleClose }) => {
   const [player, setPlayer] = useState({});
+  const pusher = usePush();
 
   useEffect(() => {
-    if (submitClicked && validator.isEmail(player.email) && player.fullName) {
+    const sendUpPlayer = async () => {
       const names = player.fullName.split(" ");
 
       delete player.fullName;
@@ -34,9 +24,13 @@ const AddPlayerForm = ({ submitClicked }) => {
         lName: names[names.length - 1],
       };
 
-      console.log(playerToSend);
+      const response = await pusher(playerToSend, "players");
+      if (response !== null) handleClose();
+    };
+    if (submitClicked && validator.isEmail(player.email) && player.fullName) {
+      sendUpPlayer();
     }
-  }, [submitClicked]);
+  }, [submitClicked, handleClose]);
 
   return (
     <form className={classes.innerContainer}>

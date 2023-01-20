@@ -20,7 +20,12 @@ const MyModal = ({ handleCloser, formType }) => {
           <Modal.Title>Add Player</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {formType === Constants.PLAYER_ADD && <AddPlayerForm submitClicked={submitClicked} />}
+          {formType === Constants.PLAYER_ADD && (
+            <AddPlayerForm
+              submitClicked={submitClicked}
+              handleClose={handleClose}
+            />
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

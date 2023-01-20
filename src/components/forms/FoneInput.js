@@ -19,10 +19,10 @@ const FoneInput = (props) => {
       (event.target.value.length === 3 || event.target.value.length === 7) &&
       !isNaN(event.nativeEvent.data)
     ) {
-      playerSetter({ ...player, [whichType]: event.target.value + "-" });
+      playerSetter({ ...player, phone: event.target.value + "-" });
       setFoneNumber(event.target.value + "-");
     } else {
-      playerSetter({ ...player, [whichType]: event.target.value });
+      playerSetter({ ...player, phone: event.target.value });
       setFoneNumber(event.target.value);
     }
   };
