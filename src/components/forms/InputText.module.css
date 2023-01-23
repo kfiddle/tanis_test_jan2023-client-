@@ -36,3 +36,6 @@
     outline-color: teal;
   }
    
+  .invalid{
+    background: red;
+  }

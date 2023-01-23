@@ -14,7 +14,7 @@ function MainNavigation() {
   const [show, setShow] = useState(false);
 
   const handleCloser = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (addType) => () => setShow(addType);
 
   const linkStyle = {
     color: "black",
@@ -44,12 +44,18 @@ function MainNavigation() {
                 <h3>PLAYERS</h3>
               </NavLink>
               {/* </Nav.Link> */}
+              <NavLink to={"/instruments"} style={linkStyle}>
+                <h3>INSTRUMENTS</h3>
+              </NavLink>
               <NavDropdown title="ADD" id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={handleShow}>
+                <NavDropdown.Item onClick={handleShow('player')}>
                   <h4>PLAYER</h4>
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
+                <NavDropdown.Item onClick={handleShow('gig')}>
                   <h4>GIG</h4>
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={handleShow('instrument')}>
+                  <h4>INSTRUMENT</h4>
                 </NavDropdown.Item>
                 {/* <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
               <NavDropdown.Divider />
@@ -61,7 +67,9 @@ function MainNavigation() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {show && <MyModal handleCloser={handleCloser} formType={Constants.PLAYER_ADD}/>}
+      {show === 'player' && <MyModal handleCloser={handleCloser} formType={Constants.PLAYER_ADD}/>}
+      {show === 'gig' && <MyModal handleCloser={handleCloser} formType={Constants.GIG_ADD}/>}
+      {show === 'instrument' && <MyModal handleCloser={handleCloser} formType={Constants.INST_ADD}/>}
     </Fragment>
   );
 }

@@ -42,6 +42,14 @@ const AddPlayerForm = ({ submitClicked, handleClose }) => {
           }
         />
       </div>
+      <div>
+        <InputText
+          label={"Primary Instrument"}
+          onChange={(event) =>
+            setPlayer({ ...player, instrument: event.target.value })
+          }
+        />
+      </div>
 
       <div className={classes.phoneDiv}>
         <FoneInput

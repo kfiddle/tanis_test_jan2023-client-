@@ -3,8 +3,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 import * as Constants from "../constants/Constants";
+
 import AddPlayerForm from "../players/AddPlayerForm";
 import AddGigForm from "../gigs/AddGigForm";
+import AddInstForm from "../instruments/AddInstForm";
 
 const MyModal = ({ handleCloser, formType }) => {
   const [show, setShow] = useState(true);
@@ -14,11 +16,13 @@ const MyModal = ({ handleCloser, formType }) => {
 
   const submitClicker = () => setSubmitClicked(true);
 
+  const addingEntity = formType[0].toUpperCase() + formType.slice(1, -3);
+
   return (
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Player</Modal.Title>
+          <Modal.Title>Add {addingEntity} </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {formType === Constants.PLAYER_ADD && (
@@ -34,13 +38,20 @@ const MyModal = ({ handleCloser, formType }) => {
               handleClose={handleClose}
             />
           )}
+
+          {formType === Constants.INST_ADD && (
+            <AddInstForm
+              submitClicked={submitClicked}
+              handleClose={handleClose}
+            />
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            <h5>Close</h5>
           </Button>
           <Button variant="primary" onClick={submitClicker}>
-            Submit Player
+            <h5>Submit {addingEntity}</h5>
           </Button>
         </Modal.Footer>
       </Modal>

@@ -13,8 +13,9 @@ const usePush = () => {
     if (response.ok) {
       let answer = await response.json();
       return answer;
-    }
-    return null;
+    } 
+    let errorReply = await response.json();
+    return errorReply.message;
   };
 
   return pusher;
