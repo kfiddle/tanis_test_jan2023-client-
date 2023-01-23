@@ -28,6 +28,7 @@ const MyModal = ({ handleCloser, formType }) => {
           {formType === Constants.PLAYER_ADD && (
             <AddPlayerForm
               submitClicked={submitClicked}
+              setSubmitClicked={setSubmitClicked}
               handleClose={handleClose}
             />
           )}
@@ -35,6 +36,7 @@ const MyModal = ({ handleCloser, formType }) => {
           {formType === Constants.GIG_ADD && (
             <AddGigForm
               submitClicked={submitClicked}
+              setSubmitClicked={setSubmitClicked}
               handleClose={handleClose}
             />
           )}
@@ -42,6 +44,7 @@ const MyModal = ({ handleCloser, formType }) => {
           {formType === Constants.INST_ADD && (
             <AddInstForm
               submitClicked={submitClicked}
+              setSubmitClicked={setSubmitClicked}
               handleClose={handleClose}
             />
           )}

@@ -3,14 +3,17 @@ import React from "react";
 import classes from "./InputText.module.css";
 
 const InputText = React.forwardRef((props, ref) => {
-  const { label, onChange, placeholder, isValid} = props;
+  const { label, onChange, placeholder, isValid } = props;
 
-  const classNames = isValid? classes.control : `${classes.control} ${classes.invalid}`;
+  const inputClasses = isValid
+    ? classes.input
+    : `${classes.input} ${classes.invalid}`;
 
   return (
-    <div className={classNames}>
-      <label>{label}</label>
+    <div className={classes.control}>
+      <label className={classes.label}>{label}</label>
       <input
+        className={inputClasses}
         type={"text"}
         ref={ref}
         placeholder={placeholder}

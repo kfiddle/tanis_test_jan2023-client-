@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import { server } from "../utils/WhichServer";
 
+import { useSelector } from "react-redux";
+
 import useGrabList from "../../hooks/useGrabList";
 
 import Card from "react-bootstrap/Card";
@@ -18,7 +20,7 @@ const Gigs = () => {
         <ListGroup.Item
           key={idx}
           action
-        //   onClick={clicker}
+          //   onClick={clicker}
           className={styles.li}
         >
           {gig.title} 'cello'
@@ -29,7 +31,9 @@ const Gigs = () => {
   return (
     <Card>
       {/* <SortBar sorter={sorter} options={options} /> */}
-      <ListGroup>{displayableGigs}</ListGroup>
+      <ListGroup>
+        {displayableGigs}
+      </ListGroup>
     </Card>
   );
 };

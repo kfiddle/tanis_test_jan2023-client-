@@ -8,7 +8,7 @@ import usePush from "../../hooks/usePush.js";
 
 import classes from "./AddInstForm.module.css";
 
-const AddInstForm = ({ submitClicked, handleClose }) => {
+const AddInstForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const [inst, setInst] = useState({});
   const [instAlreadyExists, setInstAlreadyExists] = useState(false);
   const pusher = usePush();
@@ -29,15 +29,21 @@ const AddInstForm = ({ submitClicked, handleClose }) => {
     }
   }, [submitClicked, handleClose]);
 
+  const onChangeFunc = (event) => {
+    setInstAlreadyExists(false)
+    setSubmitClicked(false)
+    setInst({ ...inst, name: event.target.value.toLowerCase() });
+  };
+
   return (
     <form className={classes.innerContainer}>
       <div>
         <InputText
-          label={"Instrument Name"}
-          isValid={!instAlreadyExists}
-          onChange={(event) =>
-            setInst({ ...inst, name: event.target.value.toLowerCase() })
+          label={
+            !instAlreadyExists ? "Instrument Name" : "instrument already exists"
           }
+          isValid={!instAlreadyExists}
+          onChange={(event) => onChangeFunc(event)}
         />
       </div>
     </form>
