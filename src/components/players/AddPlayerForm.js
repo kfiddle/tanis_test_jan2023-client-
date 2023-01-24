@@ -10,15 +10,27 @@ import FoneInput from "../forms/FoneInput";
 import usePush from "../../hooks/usePush.js";
 
 import classes from "./AddPlayerForm.module.css";
-import { isAllOf } from "@reduxjs/toolkit";
+
+const initialState = {};
 
 const AddPlayerForm = ({ submitClicked, handleClose }) => {
   const [player, setPlayer] = useState({});
+  const [insts, setInts] = useState([]);
+
   const allInsts = useSelector((state) => state.insts.allInsts).map(
     (inst) => inst.name
   );
   const pusher = usePush();
 
+  const isValid = () => {
+    if (!player.fullName) return false;
+
+    for (let inst of insts) {
+      if (!allInsts.includes(inst)) return false;
+    }
+
+    return !player.email || validator.isEmail(player.email);
+  };
 
   useEffect(() => {
     const sendUpPlayer = async () => {
@@ -30,14 +42,21 @@ const AddPlayerForm = ({ submitClicked, handleClose }) => {
         fName: names.slice(0, -1).join(" "),
         lName: names[names.length - 1],
       };
+      console.log(insts);
 
       const response = await pusher(playerToSend, "players");
       if (response !== null) handleClose();
     };
-    if (submitClicked && validator.isEmail(player.email) && player.fullName) {
+    if (submitClicked && isValid()) {
       sendUpPlayer();
     }
   }, [submitClicked, handleClose]);
+
+  const instHandler = (event, num) => {
+    let tempList = insts;
+    tempList[num] = event.target.value;
+    setInts(tempList);
+  };
 
   return (
     <form className={classes.innerContainer}>
@@ -50,25 +69,31 @@ const AddPlayerForm = ({ submitClicked, handleClose }) => {
           }
         />
       </div>
-      <div>
-        <Hint options={allInsts} allowTabFill={true} allowEnterFill={true}>
-          <input
-            label={"Primary Instrument"}
-            onChange={(event) =>
-              setPlayer({ ...player, instrument: event.target.value })
-            }
-          />
-        </Hint>
-      </div>
 
-      <div className={classes.control}>
-      <label className={classes.label}>Primary Instrument</label>
-      <input
-        type={"text"}
-        // placeholder={placeholder}
-        // onChange={onChange}
-      ></input>
-    </div>
+      <div className={classes.instInputsDiv}>
+        <div className={classes.control}>
+          <label className={classes.label}>Instrument</label>
+          <Hint options={allInsts} allowTabFill={true} allowEnterFill={true}>
+            <input
+              type={"text"}
+              className={classes.input}
+              onBlur={() => console.log(insts[0])}
+              onChange={(event) => instHandler(event, 0)}
+            ></input>
+          </Hint>
+        </div>
+
+        <div className={classes.control}>
+          <label className={classes.label}>Secondary?</label>
+          <Hint options={allInsts} allowTabFill={true} allowEnterFill={true}>
+            <input
+              type={"text"}
+              className={classes.input}
+              onChange={(event) => instHandler(event, 1)}
+            ></input>
+          </Hint>
+        </div>
+      </div>
 
       <div className={classes.phoneDiv}>
         <FoneInput
