@@ -8,7 +8,10 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink } from "react-router-dom";
 import MyModal from "../UI/MyModal";
 
-import * as Constants from '../constants/Constants';
+import * as Constants from "../constants/Constants";
+
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 function MainNavigation() {
   const [show, setShow] = useState(false);
@@ -48,13 +51,13 @@ function MainNavigation() {
                 <h3>INSTRUMENTS</h3>
               </NavLink>
               <NavDropdown title="ADD" id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={handleShow('player')}>
+                <NavDropdown.Item onClick={handleShow("player")}>
                   <h4>PLAYER</h4>
                 </NavDropdown.Item>
-                <NavDropdown.Item onClick={handleShow('gig')}>
+                <NavDropdown.Item onClick={handleShow("gig")}>
                   <h4>GIG</h4>
                 </NavDropdown.Item>
-                <NavDropdown.Item onClick={handleShow('instrument')}>
+                <NavDropdown.Item onClick={handleShow("instrument")}>
                   <h4>INSTRUMENT</h4>
                 </NavDropdown.Item>
                 {/* <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
@@ -67,9 +70,27 @@ function MainNavigation() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {show === 'player' && <MyModal handleCloser={handleCloser} formType={Constants.PLAYER_ADD}/>}
-      {show === 'gig' && <MyModal handleCloser={handleCloser} formType={Constants.GIG_ADD}/>}
-      {show === 'instrument' && <MyModal handleCloser={handleCloser} formType={Constants.INST_ADD}/>}
+      {show === "player" && (
+        <MyModal
+          handleCloser={handleCloser}
+          formType={Constants.PLAYER_ADD}
+          fullscreen={false}
+        />
+      )}
+      {show === "instrument" && (
+        <MyModal
+          handleCloser={handleCloser}
+          formType={Constants.INST_ADD}
+          fullscreen={false}
+        />
+      )}
+      {show === "gig" && (
+        <MyModal
+          handleCloser={handleCloser}
+          formType={Constants.GIG_ADD}
+          fullscreen={true}
+        />
+      )}
     </Fragment>
   );
 }

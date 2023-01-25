@@ -106,9 +106,6 @@ const AddPlayerForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
 
   return (
     <form className={classes.innerContainer}>
-      <button type="button" onClick={() => console.log(fullInstsList)}>
-        TEST
-      </button>
       <div>
         <h3 style={{ color: "red" }}>{error}</h3>
       </div>

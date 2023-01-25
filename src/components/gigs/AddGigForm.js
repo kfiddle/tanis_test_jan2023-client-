@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import validator from "validator";
 
@@ -9,89 +9,96 @@ import usePush from "../../hooks/usePush.js";
 
 import classes from "./AddGigForm.module.css";
 
-const AddGigForm = ({ submitClicked, handleClose }) => {
+const initialState = {
+  venue: true,
+  firstInst: true,
+  secondInst: true,
+  email: true,
+};
+
+const validReducer = (state, action) => {
+  switch (action.type) {
+    case "venue":
+      return { ...state, venue: action.isValid };
+    case "firstInst":
+      return { ...state, firstInst: action.isValid };
+    case "secondInst":
+      return { ...state, secondInst: action.isValid };
+    case "email":
+      return { ...state, email: action.isValid };
+    case "reset":
+      return { ...initialState };
+  }
+};
+
+const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const [gig, setGig] = useState({});
+  const [validForm, dispatch] = useReducer(validReducer, initialState);
   const pusher = usePush();
 
   useEffect(() => {
     const sendUpGig = async () => {
-    //   const names = player.fullName.split(" ");
-
-    //   delete player.fullName;
-    //   const playerToSend = {
-    //     ...player,
-    //     fName: names.slice(0, -1).join(" "),
-    //     lName: names[names.length - 1],
-    //   };
-
-    //   const response = await pusher(playerToSend, "players");
-    //   if (response !== null) handleClose();
-    // };
-    // if (submitClicked && validator.isEmail(player.email) && player.fullName) {
-    //   sendUpPlayer();
-    }
+      //   const names = player.fullName.split(" ");
+      //   delete player.fullName;
+      //   const playerToSend = {
+      //     ...player,
+      //     fName: names.slice(0, -1).join(" "),
+      //     lName: names[names.length - 1],
+      //   };
+      //   const response = await pusher(playerToSend, "players");
+      //   if (response !== null) handleClose();
+      // };
+      // if (submitClicked && validator.isEmail(player.email) && player.fullName) {
+      //   sendUpPlayer();
+    };
   }, [submitClicked, handleClose]);
+
+  // var requestOptions = {
+  //   method: "GET",
+  // };
+
+  // fetch(
+  //   "https://api.geoapify.com/v1/geocode/autocomplete?text=Mosco&apiKey=5f9f1de121ec497fafd968cc06afb9da",
+  //   requestOptions
+  // )
+  //   .then((response) => response.json())
+  //   .then((result) => console.log(result))
+  //   .catch((error) => console.log("error", error));
+
+  // const findAddress = async (event) => {
+  //   const text = event.target.value;
+  //   const response = await fetch(
+  //     `https://api.geoapify.com/v1/geocode/autocomplete?text=${text}&apiKey=5f9f1de121ec497fafd968cc06afb9da`
+  //   );
+  //   const unscrambled = await response.json();
+  //   console.log(unscrambled.features.map((feature) => feature.properties.map));
+  // };
 
   return (
     <form className={classes.innerContainer}>
-      {/* <div>
-        <InputText
-          label={"Full Name"}
-          onChange={(event) =>
-            setPlayer({ ...player, fullName: event.target.value })
-          }
-        />
-      </div>
+      <InputText
+        isValid={validForm.venue}
+        label={"Venue"}
+        onChange={(event) => setGig({ ...gig, venue: event.target.value })}
+      />
 
-      <div className={classes.phoneDiv}>
-        <FoneInput
-          whichType={"cellPhone"}
-          player={player}
-          playerSetter={setPlayer}
-        />
+      <InputText
+        label={"Address"}
+        isValid
+        onChange={(event) => setGig({ ...gig, address: event.target.value })}
+      />
 
-        <InputText
-          label={"Email"}
-          onChange={(event) =>
-            setPlayer({ ...player, email: event.target.value })
-          }
-        />
+      <FoneInput gig={gig} gigSetter={setGig} />
 
-        <InputText
-          label={"Address Line 1"}
-          onChange={(event) =>
-            setPlayer({ ...player, addressLine1: event.target.value })
-          }
-        />
-
-        <InputText
-          label={"Address Line 2"}
-          onChange={(event) =>
-            setPlayer({ ...player, addressLine2: event.target.value })
-          }
-        />
-
-        <InputText
-          label={"City"}
-          onChange={(event) =>
-            setPlayer({ ...player, city: event.target.value })
-          }
-        />
-
-        <InputText
-          label={"State"}
-          onChange={(event) =>
-            setPlayer({ ...player, state: event.target.value })
-          }
-        />
-
-        <InputText
-          label={"Zip"}
-          onChange={(event) =>
-            setPlayer({ ...player, zip: event.target.value })
-          }
-        />
-      </div> */}
+      <InputText
+        label={"Contact Email"}
+        isValid={validForm.email}
+        onChange={(event) => {
+          setSubmitClicked(false);
+          dispatch({ type: "email", isValid: true });
+          setGig({ ...gig, contactEmail: event.target.value });
+        }}
+      />
     </form>
   );
 };

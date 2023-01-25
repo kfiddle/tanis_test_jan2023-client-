@@ -8,7 +8,7 @@ import AddPlayerForm from "../players/AddPlayerForm";
 import AddGigForm from "../gigs/AddGigForm";
 import AddInstForm from "../instruments/AddInstForm";
 
-const MyModal = ({ handleCloser, formType }) => {
+const MyModal = ({ handleCloser, formType, fullscreen }) => {
   const [show, setShow] = useState(true);
   const [submitClicked, setSubmitClicked] = useState(false);
 
@@ -20,7 +20,7 @@ const MyModal = ({ handleCloser, formType }) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show}  fullscreen={fullscreen} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add {addingEntity} </Modal.Title>
         </Modal.Header>
