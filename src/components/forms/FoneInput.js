@@ -9,7 +9,8 @@ const FoneInput = (props) => {
   let key = whichType;
   let placeholder = player[whichType];
 
-  let label = whichType === "homePhone" ? "Home Phone" : "Cell Phone";
+  // let label = whichType === "homePhone" ? "Home Phone" : "Cell Phone";
+  let label = "Phone";
 
   const formatNumber = (event) => {
     if (isNaN(event.nativeEvent.data) || event.target.value.length === 13) {

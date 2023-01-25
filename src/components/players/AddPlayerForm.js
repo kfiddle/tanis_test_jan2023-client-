@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
 
 import validator from "validator";
@@ -11,25 +11,60 @@ import usePush from "../../hooks/usePush.js";
 
 import classes from "./AddPlayerForm.module.css";
 
-const initialState = {};
+const initialState = {
+  fullName: true,
+  firstInst: true,
+  secondInst: true,
+  email: true,
+};
 
-const AddPlayerForm = ({ submitClicked, handleClose }) => {
+const validReducer = (state, action) => {
+  switch (action.type) {
+    case "fullName":
+      return { ...state, fullName: action.isValid };
+    case "firstInst":
+      return { ...state, firstInst: action.isValid };
+    case "secondInst":
+      return { ...state, secondInst: action.isValid };
+    case "email":
+      return { ...state, email: action.isValid };
+    case "reset":
+      return { ...initialState };
+  }
+};
+
+const AddPlayerForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const [player, setPlayer] = useState({});
   const [insts, setInts] = useState([]);
-
+  const [validForm, dispatch] = useReducer(validReducer, initialState);
   const allInsts = useSelector((state) => state.insts.allInsts).map(
     (inst) => inst.name
   );
   const pusher = usePush();
 
-  const isValid = () => {
-    if (!player.fullName) return false;
-
-    for (let inst of insts) {
-      if (!allInsts.includes(inst)) return false;
+  const formIsValid = () => {
+    if (!player.fullName) {
+      dispatch({ type: "fullName", isValid: false });
+      return false;
     }
 
-    return !player.email || validator.isEmail(player.email);
+    if (insts[0] && !allInsts.includes(insts[0])) {
+      console.log("here with no first inst");
+      dispatch({ type: "firstInst", isValid: false });
+      return false;
+    }
+
+    if (insts[1] && !allInsts.includes(insts[1])) {
+      dispatch({ type: "secondInst", isValid: false });
+      return false;
+    }
+
+    if (player.email && validator.isEmail(player.email)) {
+      dispatch({ type: "email", isValid: false });
+      return false;
+    }
+
+    return true;
   };
 
   useEffect(() => {
@@ -42,31 +77,35 @@ const AddPlayerForm = ({ submitClicked, handleClose }) => {
         fName: names.slice(0, -1).join(" "),
         lName: names[names.length - 1],
       };
-      console.log(insts);
 
-      const response = await pusher(playerToSend, "players");
-      if (response !== null) handleClose();
+      // const response = await pusher(playerToSend, "players");
+      // if (response !== null) handleClose();
     };
-    if (submitClicked && isValid()) {
+    if (submitClicked && formIsValid()) {
       sendUpPlayer();
     }
   }, [submitClicked, handleClose]);
 
   const instHandler = (event, num) => {
     let tempList = insts;
-    tempList[num] = event.target.value;
+    tempList[num] = event.target.value.trim().toLowerCase();
     setInts(tempList);
   };
 
   return (
     <form className={classes.innerContainer}>
+      <button type="button" onClick={() => console.log(player)}>
+        check reducer
+      </button>
       <div>
         <InputText
           label={"Full Name"}
-          isValid={true}
-          onChange={(event) =>
-            setPlayer({ ...player, fullName: event.target.value })
-          }
+          isValid={validForm.fullName}
+          onChange={(event) => {
+            setSubmitClicked(false);
+            dispatch({ type: "fullName", isValid: true });
+            setPlayer({ ...player, fullName: event.target.value });
+          }}
         />
       </div>
 
@@ -76,9 +115,16 @@ const AddPlayerForm = ({ submitClicked, handleClose }) => {
           <Hint options={allInsts} allowTabFill={true} allowEnterFill={true}>
             <input
               type={"text"}
-              className={classes.input}
-              onBlur={() => console.log(insts[0])}
-              onChange={(event) => instHandler(event, 0)}
+              className={
+                validForm.firstInst
+                  ? classes.input
+                  : `${classes.input} ${classes.invalid}`
+              }
+              onChange={(event) => {
+                setSubmitClicked(false);
+                dispatch({ type: "firstInst", isValid: true });
+                instHandler(event, 0);
+              }}
             ></input>
           </Hint>
         </div>
@@ -88,8 +134,16 @@ const AddPlayerForm = ({ submitClicked, handleClose }) => {
           <Hint options={allInsts} allowTabFill={true} allowEnterFill={true}>
             <input
               type={"text"}
-              className={classes.input}
-              onChange={(event) => instHandler(event, 1)}
+              className={
+                validForm.secondInst
+                  ? classes.input
+                  : `${classes.input} ${classes.invalid} `
+              }
+              onChange={(event) => {
+                setSubmitClicked(false);
+                dispatch({ type: "secondInst", isValid: true });
+                instHandler(event, 1);
+              }}
             ></input>
           </Hint>
         </div>
@@ -105,9 +159,11 @@ const AddPlayerForm = ({ submitClicked, handleClose }) => {
         <InputText
           label={"Email"}
           isValid={true}
-          onChange={(event) =>
-            setPlayer({ ...player, email: event.target.value })
-          }
+          onChange={(event) => {
+            setSubmitClicked(false);
+            dispatch({ type: "email", isValid: true });
+            setPlayer({ ...player, email: event.target.value });
+          }}
         />
 
         <InputText
