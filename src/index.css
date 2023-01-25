@@ -13,6 +13,13 @@
 }
 
 body {
+  background: rgb(232, 232, 238);
+  background: linear-gradient(
+    90deg,
+    rgb(230, 232, 238) 0%,
+    rgba(255, 255, 255, 0.9948354341736695) 36%,
+    rgb(205, 225, 230) 100%
+  );
   margin: 0;
 
   font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;

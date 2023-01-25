@@ -1,6 +1,8 @@
 import { useEffect, useReducer, useState } from "react";
 
 import validator from "validator";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 import InputText from "../forms/InputText.js";
 import FoneInput from "../forms/FoneInput";
@@ -33,6 +35,7 @@ const validReducer = (state, action) => {
 
 const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const [gig, setGig] = useState({});
+  const [value, onChange] = useState(new Date());
   const [validForm, dispatch] = useReducer(validReducer, initialState);
   const pusher = usePush();
 
@@ -87,6 +90,10 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
         isValid
         onChange={(event) => setGig({ ...gig, address: event.target.value })}
       />
+
+      <div className={classes.calendarDiv}>
+        <Calendar value={value} />
+      </div>
 
       <FoneInput gig={gig} gigSetter={setGig} />
 
