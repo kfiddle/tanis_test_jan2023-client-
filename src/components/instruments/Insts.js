@@ -13,15 +13,17 @@ import SortBar from "../sortBar/SortBar";
 const Insts = () => {
   const insts = useGrabList("insts");
 
+  const clicker = (inst) => () => console.log(inst);
+
   const displayableInsts = insts
     ? insts.map((inst, idx) => (
         <ListGroup.Item
           key={idx}
           action
-        //   onClick={clicker}
+          onClick={clicker(inst)}
           className={styles.li}
         >
-          {inst.name} 
+          {inst.name}
         </ListGroup.Item>
       ))
     : [];

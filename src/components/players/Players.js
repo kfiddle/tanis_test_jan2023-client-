@@ -30,7 +30,7 @@ const Players = () => {
           onClick={clicker}
           className={styles.li}
         >
-          {player.lName} {player.fName} 'cello'
+          {player.lName} {player.fName} 
         </ListGroup.Item>
       ))
     : [];

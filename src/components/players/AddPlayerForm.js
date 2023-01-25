@@ -36,10 +36,11 @@ const validReducer = (state, action) => {
 const AddPlayerForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const [player, setPlayer] = useState({});
   const [insts, setInts] = useState([]);
+  const [error, setError] = useState(false);
   const [validForm, dispatch] = useReducer(validReducer, initialState);
-  const allInsts = useSelector((state) => state.insts.allInsts).map(
-    (inst) => inst.name
-  );
+  const fullInstsList = useSelector((state) => state.insts.allInsts);
+  const allInsts = fullInstsList.map((inst) => inst.name);
+
   const pusher = usePush();
 
   const formIsValid = () => {
@@ -59,7 +60,7 @@ const AddPlayerForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
       return false;
     }
 
-    if (player.email && validator.isEmail(player.email)) {
+    if (player.email && !validator.isEmail(player.email)) {
       dispatch({ type: "email", isValid: false });
       return false;
     }
@@ -71,16 +72,27 @@ const AddPlayerForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
     const sendUpPlayer = async () => {
       const names = player.fullName.split(" ");
 
+      const instsToSend = insts.reduce((list, next) => {
+        let instId = fullInstsList.find((inst) => inst.name === next).id;
+        list.push(instId);
+        return list;
+      }, []);
+
       delete player.fullName;
       const playerToSend = {
         ...player,
         fName: names.slice(0, -1).join(" "),
         lName: names[names.length - 1],
+        insts: instsToSend,
       };
 
-      // const response = await pusher(playerToSend, "players");
-      // if (response !== null) handleClose();
+      const response = await pusher(playerToSend, "players");
+      if (typeof response === "string") return setError(response);
+      console.log(response);
+
+      handleClose();
     };
+
     if (submitClicked && formIsValid()) {
       sendUpPlayer();
     }
@@ -94,9 +106,12 @@ const AddPlayerForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
 
   return (
     <form className={classes.innerContainer}>
-      <button type="button" onClick={() => console.log(player)}>
-        check reducer
+      <button type="button" onClick={() => console.log(fullInstsList)}>
+        TEST
       </button>
+      <div>
+        <h3 style={{ color: "red" }}>{error}</h3>
+      </div>
       <div>
         <InputText
           label={"Full Name"}
@@ -158,7 +173,7 @@ const AddPlayerForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
 
         <InputText
           label={"Email"}
-          isValid={true}
+          isValid={validForm.email}
           onChange={(event) => {
             setSubmitClicked(false);
             dispatch({ type: "email", isValid: true });
