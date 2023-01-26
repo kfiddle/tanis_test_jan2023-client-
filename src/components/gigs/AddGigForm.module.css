@@ -1,3 +1,18 @@
+.innerContainer {
+}
+
 .calendarDiv {
-  border: white 6px solid;
+  /* display: flex;
+  justify-content: center; */
+  padding: 1rem;
+}
+
+.calendar {
+  border: none;
+  box-shadow: -1px 4px 17px -2px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: -1px 4px 17px -2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 4px 17px -2px rgba(0, 0, 0, 0.75);
+}
+
+.instsDiv {
 }
