@@ -7,6 +7,7 @@
 
 .control {
   margin-bottom: 0.5rem;
+  
 }
 
 .label {
@@ -25,7 +26,9 @@
   border-radius: 4px;
   background: #f3f1f1;
   border: 1px solid #c1d1d1;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 80%;
   font-size: 1.2rem;
 }

@@ -11,6 +11,7 @@ import usePush from "../../hooks/usePush.js";
 
 import classes from "./AddGigForm.module.css";
 import InstsDropDown from "./InstsDropDown.js";
+import TimeInput from "./TimeInput.js";
 
 const initialState = {
   venue: true,
@@ -78,6 +79,10 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
           className={classes.calendar}
           onChange={onChange}
         />
+      </div>
+
+      <div className={classes.timeInputDiv}>
+        <TimeInput />
       </div>
 
       <div className={classes.instsDiv}>

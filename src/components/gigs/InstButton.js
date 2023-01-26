@@ -7,6 +7,7 @@ const InstButton = ({ instrument }) => {
   const [localNumber, setLocalNumber] = useState(0);
 
   const clickHandler = () => {
+    if (localNumber === 0 && !clicked) setLocalNumber(1);
     setClicked((previous) => !previous);
   };
 
@@ -26,10 +27,18 @@ const InstButton = ({ instrument }) => {
   return (
     <div className={styles.outerContainer}>
       <div className={buttonsClassNames}>
-        <button type='button' onClick={subtractButtonClicker} className={styles.button}>
+        <button
+          type="button"
+          onClick={subtractButtonClicker}
+          className={styles.button}
+        >
           -
         </button>
-        <button type='button' onClick={addButtonClicker} className={styles.button}>
+        <button
+          type="button"
+          onClick={addButtonClicker}
+          className={styles.button}
+        >
           +
         </button>{" "}
         <div className={styles.numberDiv}>{localNumber}</div>
