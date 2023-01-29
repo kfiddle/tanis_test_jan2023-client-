@@ -6,28 +6,13 @@ const START_MIN = "startMin";
 const END_HOURS = "endHours";
 const END_MIN = "endMin";
 
-const initialState = {
-  [START_HOURS]: "",
-  [START_MIN]: "",
-  [END_HOURS]: "",
-  [END_MIN]: "",
-};
-
-const timeReducer = (state, action) => {
-  return { ...state, [action.clockHand]: action.time };
-};
-
-const TimeInput = ({}) => {
-  const [timeState, dispatch] = useReducer(timeReducer, initialState);
-
-  const timeSetter = (clockHand) => (event) => {
-    if (isNaN(event.nativeEvent.data) || event.target.value.length === 3) {
-      return;
-    }
-    dispatch({ clockHand, time: event.target.value });
+const TimeInput = ({ timeSetter, gig }) => {
+  const displayedValues = {
+    startHours: gig.startHours,
+    startMin: +gig.startMin <= 9 ? "0" + gig.startMin : gig.endMin,
+    endHours: gig.endHours,
+    endMin: +gig.endMin <= 9 ? "0" + gig.endMin : gig.endMin,
   };
-
-  console.log(timeState);
 
   return (
     <div className={classes.outerContainer}>
@@ -39,13 +24,13 @@ const TimeInput = ({}) => {
               <input
                 type={"text"}
                 onChange={timeSetter(START_HOURS)}
-                value={timeState[START_HOURS]}
+                value={displayedValues.startHours}
                 style={{ width: "4rem", marginRight: ".5rem" }}
               ></input>
               <input
                 type={"text"}
                 onChange={timeSetter(START_MIN)}
-                value={timeState[START_MIN]}
+                value={displayedValues.startMin}
                 style={{ width: "6rem" }}
               ></input>
             </div>
@@ -57,13 +42,13 @@ const TimeInput = ({}) => {
               <input
                 type={"text"}
                 onChange={timeSetter(END_HOURS)}
-                value={timeState[END_HOURS]}
+                value={gig.endHours}
                 style={{ width: "4rem", marginRight: ".5rem" }}
               ></input>
               <input
                 type={"text"}
                 onChange={timeSetter(END_MIN)}
-                value={timeState[END_MIN]}
+                value={gig.endMin}
                 style={{ width: "6rem" }}
               ></input>
             </div>

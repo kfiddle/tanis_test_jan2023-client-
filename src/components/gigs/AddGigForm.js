@@ -4,6 +4,10 @@ import validator from "validator";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Overlay from "react-bootstrap/esm/Overlay.js";
+import Popover from "react-bootstrap/Popover";
+
 import InputText from "../forms/InputText.js";
 import FoneInput from "../forms/FoneInput";
 
@@ -30,33 +34,65 @@ const validReducer = (state, action) => {
       return { ...state, secondInst: action.isValid };
     case "email":
       return { ...state, email: action.isValid };
+    case "time":
+      return { ...state, [action.clockHand]: action.time };
+    case "reset":
+      return { ...initialState };
+  }
+};
+
+const initialGig = {
+  venue: "",
+  address: "",
+  contactEmail: "",
+  startHours: "",
+  startMin: "",
+  endHours: "",
+  endMin: "",
+};
+
+const gigReducer = (state, action) => {
+  switch (action.type) {
+    case "venue":
+      return { ...state, venue: action.venue };
+    case "address":
+      return { ...state, address: action.address };
+    case "contactEmail":
+      return { ...state, contactEmail: action.contactEmail };
+    case "startHours":
+      return { ...state, startHours: action.startHours };
+    case "startMin":
+      return { ...state, startMin: action.startMin };
+    case "endHours":
+      return { ...state, endHours: action.endHours };
+    case "endMin":
+      return { ...state, endMin: action.endMin };
+    // case "email":
+    //   return { ...state, email: action.isValid };
+
     case "reset":
       return { ...initialState };
   }
 };
 
 const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
-  const [gig, setGig] = useState({});
+  const [gig, gigDispatch] = useReducer(gigReducer, initialGig);
   const [value, onChange] = useState(new Date());
   const [validForm, dispatch] = useReducer(validReducer, initialState);
   const pusher = usePush();
 
-  // console.log(value);
+  const timeSetter = (clockHand) => (event) => {
+    if (isNaN(event.nativeEvent.data) || event.target.value.length === 3) {
+      return;
+    }
+    gigDispatch({ type: clockHand, [clockHand]: event.target.value });
+  };
+
   useEffect(() => {
     const sendUpGig = async () => {
-      //   const names = player.fullName.split(" ");
-      //   delete player.fullName;
-      //   const playerToSend = {
-      //     ...player,
-      //     fName: names.slice(0, -1).join(" "),
-      //     lName: names[names.length - 1],
-      //   };
-      //   const response = await pusher(playerToSend, "players");
-      //   if (response !== null) handleClose();
-      // };
-      // if (submitClicked && validator.isEmail(player.email) && player.fullName) {
-      //   sendUpPlayer();
+      console.log(gig);
     };
+    if (submitClicked) sendUpGig();
   }, [submitClicked, handleClose]);
 
   return (
@@ -64,13 +100,17 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
       <InputText
         isValid={validForm.venue}
         label={"Venue"}
-        onChange={(event) => setGig({ ...gig, venue: event.target.value })}
+        onChange={(event) =>
+          gigDispatch({ type: "venue", venue: event.target.value })
+        }
       />
 
       <InputText
         label={"Address"}
         isValid
-        onChange={(event) => setGig({ ...gig, address: event.target.value })}
+        onChange={(event) =>
+          gigDispatch({ type: "address", address: event.target.value })
+        }
       />
 
       <div className={classes.calendarDiv}>
@@ -82,14 +122,14 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
       </div>
 
       <div className={classes.timeInputDiv}>
-        <TimeInput />
+        <TimeInput timeSetter={timeSetter} gig={gig} />
       </div>
 
       <div className={classes.instsDiv}>
         <InstsDropDown />
       </div>
 
-      <FoneInput gig={gig} gigSetter={setGig} />
+      {/* <FoneInput gig={gig} gig={setGig} /> */}
 
       <InputText
         label={"Contact Email"}
@@ -97,7 +137,10 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
         onChange={(event) => {
           setSubmitClicked(false);
           dispatch({ type: "email", isValid: true });
-          setGig({ ...gig, contactEmail: event.target.value });
+          gigDispatch({
+            type: "contactEmail",
+            contactEmail: event.target.value,
+          });
         }}
       />
     </form>
