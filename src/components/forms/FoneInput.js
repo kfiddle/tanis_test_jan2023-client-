@@ -2,14 +2,9 @@ import { useState } from "react";
 
 import classes from "./FoneInput.module.css";
 
-const FoneInput = (props) => {
+const FoneInput = ({whichType, player, playerSetter }) => {
   const [foneNumber, setFoneNumber] = useState("");
-  const { whichType, player, playerSetter } = props;
 
-  // let key = whichType;
-  // let placeholder = player[whichType];
-
-  // let label = whichType === "homePhone" ? "Home Phone" : "Cell Phone";
   let label = "Phone";
 
   const formatNumber = (event) => {
@@ -45,7 +40,6 @@ const FoneInput = (props) => {
         onChange={formatNumber}
         onKeyDown={checkForDelete}
         value={foneNumber}
-        // placeholder={placeholder}
       ></input>
     </div>
   );

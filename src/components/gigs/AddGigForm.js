@@ -45,6 +45,7 @@ const initialGig = {
   venue: "",
   address: "",
   contactEmail: "",
+  contactPhone:'',
   startHours: "",
   startMin: "",
   endHours: "",
@@ -59,6 +60,8 @@ const gigReducer = (state, action) => {
       return { ...state, address: action.address };
     case "contactEmail":
       return { ...state, contactEmail: action.contactEmail };
+    case "contactPhone":
+      return { ...state, contactPhone: action.contactPhone };
     case "startHours":
       return { ...state, startHours: action.startHours };
     case "startMin":
@@ -90,12 +93,35 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
 
   const minuteFormer = (clockHand) => (event) => {
     let minutes = event.target.value;
-    console.log(minutes);
     if ((minutes.length === 1 && minutes === "0") || minutes.length === 0)
       return gigDispatch({ type: clockHand, [clockHand]: "00" });
     if (minutes <= 9 && minutes.length > 0 && minutes[0] !== "0")
       return gigDispatch({ type: clockHand, [clockHand]: "0" + minutes });
     gigDispatch({ type: clockHand, [clockHand]: minutes });
+  };
+
+  const formatFone = (event) => {
+    let enteredNum = event.target.value;
+    if (isNaN(event.nativeEvent.data) || enteredNum.length === 13) {
+      return;
+    }
+    if (enteredNum.length === 3 || enteredNum.length === 7) {
+      return gigDispatch({
+        type: "contactPhone",
+        contactPhone: enteredNum + "-",
+      });
+    }
+    return gigDispatch({ type: "contactPhone", contactPhone: enteredNum });
+  };
+
+  const checkForDelete = (event) => {
+    if (event.code === "Backspace" && gig.contactPhone[gig.contactPhone.length - 1] === "-") {
+      return gigDispatch({
+        type: "contactPhone",
+        contactPhone: gig.contactPhone.slice(0, -1),
+      });
+    }
+    return;
   };
 
   useEffect(() => {
@@ -143,8 +169,6 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
         <InstsDropDown />
       </div>
 
-      {/* <FoneInput gig={gig} gig={setGig} /> */}
-
       <InputText
         label={"Contact Email"}
         isValid={validForm.email}
@@ -156,6 +180,14 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
             contactEmail: event.target.value,
           });
         }}
+      />
+
+      <InputText
+        label={"Contact Phone"}
+        isValid={true}
+        onChange={formatFone}
+        keyDown={checkForDelete}
+        value={gig.contactPhone}
       />
     </form>
   );
