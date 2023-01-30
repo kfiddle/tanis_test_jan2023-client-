@@ -6,13 +6,15 @@ const START_MIN = "startMin";
 const END_HOURS = "endHours";
 const END_MIN = "endMin";
 
-const TimeInput = ({ timeSetter, gig }) => {
-  const displayedValues = {
+const TimeInput = ({ timeSetter, minuteFormer, gig }) => {
+  const timeShown = {
     startHours: gig.startHours,
-    startMin: +gig.startMin <= 9 ? "0" + gig.startMin : gig.endMin,
+    startMin: gig.startMin,
     endHours: gig.endHours,
-    endMin: +gig.endMin <= 9 ? "0" + gig.endMin : gig.endMin,
+    endMin: gig.endMin,
   };
+
+  // const inputClasses =
 
   return (
     <div className={classes.outerContainer}>
@@ -22,15 +24,22 @@ const TimeInput = ({ timeSetter, gig }) => {
             <label>Start Time</label>
             <div className={classes.hoursMinutesHolder}>
               <input
+                className={
+                  timeShown.startHours < 13 ? classes.input : classes.invalid
+                }
                 type={"text"}
                 onChange={timeSetter(START_HOURS)}
-                value={displayedValues.startHours}
+                value={timeShown.startHours}
                 style={{ width: "4rem", marginRight: ".5rem" }}
               ></input>
               <input
+                className={
+                  timeShown.startMin < 60 ? classes.input : classes.invalid
+                }
                 type={"text"}
                 onChange={timeSetter(START_MIN)}
-                value={displayedValues.startMin}
+                onBlur={minuteFormer(START_MIN)}
+                value={timeShown.startMin}
                 style={{ width: "6rem" }}
               ></input>
             </div>
@@ -40,15 +49,22 @@ const TimeInput = ({ timeSetter, gig }) => {
             <label>End Time?</label>
             <div className={classes.hoursMinutesHolder}>
               <input
+                className={
+                  timeShown.endHours < 13 ? classes.input : classes.invalid
+                }
                 type={"text"}
                 onChange={timeSetter(END_HOURS)}
-                value={gig.endHours}
+                value={timeShown.endHours}
                 style={{ width: "4rem", marginRight: ".5rem" }}
               ></input>
               <input
+                className={
+                  timeShown.endMin < 60 ? classes.input : classes.invalid
+                }
                 type={"text"}
                 onChange={timeSetter(END_MIN)}
-                value={gig.endMin}
+                onBlur={minuteFormer(END_MIN)}
+                value={timeShown.endMin}
                 style={{ width: "6rem" }}
               ></input>
             </div>

@@ -1,55 +1,63 @@
 .outerContainer {
-    width: 100%;
-    display: flex;
-  }
-  
-  .dateDiv {
-    width: 70%;
-  }
-  
-  .bothTimesHolder {
-    display: flex;
-    width: 30%;
-  }
-  
-  .timeDiv {
-    margin-right: 2rem;
-  }
-  
-  .hoursMinutesHolder {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .control {
-    margin-bottom: 0.5rem;
-  }
-  
-  .control label {
-    font-weight: 700;
-    color: black;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-  .control input,
-  .control textarea {
-    font: inherit;
-    padding: 0.5rem;
-    border-radius: 4px;
-  
-    background: #f3f1f1;
-  
-    border: 1px solid #c1d1d1;
-    display: block;
-    width: 70%;
-    font-size: 1.25rem;
-  }
-  
-  .control input:focus,
-  .control textarea:focus {
-    background-color: #e0e4fc;
-    outline-color: teal;
-  }
-  
+  width: 100%;
+  display: flex;
+}
+
+.dateDiv {
+  width: 70%;
+}
+
+.bothTimesHolder {
+  display: flex;
+  width: 30%;
+}
+
+.timeDiv {
+  margin-right: 2rem;
+}
+
+.hoursMinutesHolder {
+  display: flex;
+  justify-content: space-between;
+}
+
+.control {
+  margin-bottom: 0.5rem;
+}
+
+.control label {
+  font-weight: 700;
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.input,
+.control textarea {
+  font: inherit;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background: #f3f1f1;
+  border: 1px solid #c1d1d1;
+  display: block;
+  width: 70%;
+  font-size: 1.25rem;
+}
+
+.invalid {
+  font: inherit;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background: #f65d5d;
+  border: 1px solid #c1d1d1;
+  display: block;
+  width: 70%;
+  font-size: 1.25rem;
+}
+
+.input:focus,
+.control textarea:focus {
+  background-color: #e0e4fc;
+  outline-color: teal;
+}

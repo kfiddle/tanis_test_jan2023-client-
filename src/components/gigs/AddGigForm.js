@@ -88,6 +88,16 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
     gigDispatch({ type: clockHand, [clockHand]: event.target.value });
   };
 
+  const minuteFormer = (clockHand) => (event) => {
+    let minutes = event.target.value;
+    console.log(minutes);
+    if ((minutes.length === 1 && minutes === "0") || minutes.length === 0)
+      return gigDispatch({ type: clockHand, [clockHand]: "00" });
+    if (minutes <= 9 && minutes.length > 0 && minutes[0] !== "0")
+      return gigDispatch({ type: clockHand, [clockHand]: "0" + minutes });
+    gigDispatch({ type: clockHand, [clockHand]: minutes });
+  };
+
   useEffect(() => {
     const sendUpGig = async () => {
       console.log(gig);
@@ -122,7 +132,11 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
       </div>
 
       <div className={classes.timeInputDiv}>
-        <TimeInput timeSetter={timeSetter} gig={gig} />
+        <TimeInput
+          timeSetter={timeSetter}
+          minuteFormer={minuteFormer}
+          gig={gig}
+        />
       </div>
 
       <div className={classes.instsDiv}>
