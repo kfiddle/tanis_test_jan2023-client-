@@ -44,12 +44,13 @@ const validReducer = (state, action) => {
 const initialGig = {
   venue: "",
   address: "",
-  contactEmail: "",
-  contactPhone: "",
+  date: "",
   startHours: "",
   startMin: "",
   endHours: "",
   endMin: "",
+  contactEmail: "",
+  contactPhone: "",
   parts: [],
 };
 
@@ -59,6 +60,8 @@ const gigReducer = (state, action) => {
       return { ...state, venue: action.venue };
     case "address":
       return { ...state, address: action.address };
+    case "date":
+      return { ...state, date: action.date };
     case "contactEmail":
       return { ...state, contactEmail: action.contactEmail };
     case "contactPhone":
@@ -83,8 +86,8 @@ const gigReducer = (state, action) => {
 
 const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const [gig, gigDispatch] = useReducer(gigReducer, initialGig);
-  const [error, setError] = useState(false)
-  const [value, onChange] = useState(new Date());
+  const [error, setError] = useState(false);
+  const [dateValue, dateChanger] = useState(new Date());
   const [validForm, dispatch] = useReducer(validReducer, initialState);
   const pusher = usePush();
 
@@ -131,18 +134,19 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
     return;
   };
 
+  const dateHandler = (event) => {
+    gigDispatch({ type: "date", date: event });
+  };
+
   useEffect(() => {
     const sendUpGig = async () => {
       const response = await pusher(gig, "gigs");
       if (typeof response === "string") return setError(response);
       console.log(response);
-
       handleClose();
-
     };
     if (submitClicked) {
       sendUpGig();
-      // setSubmitClicked(false);
     }
   }, [submitClicked, handleClose]);
 
@@ -166,9 +170,10 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
 
       <div className={classes.calendarDiv}>
         <Calendar
-          value={value}
+          value={dateValue}
           className={classes.calendar}
-          onChange={onChange}
+          // onChange={dateChanger}
+          onChange={(event) => dateHandler(event)}
         />
       </div>
 
