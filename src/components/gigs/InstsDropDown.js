@@ -1,22 +1,22 @@
 import InstButton from "./InstButton";
+import useGrabList from "../../hooks/useGrabList";
 
-import styles from './InstsDropDown.module.css';
+import styles from "./InstsDropDown.module.css";
 
-const insts = ["VIOLIN", "VIOLA", "CELLO", "PIANO", "GUITAR", ];
-
-const InstsDropDown = (props) => {
-  const visible = true;
+const InstsDropDown = ({ parts, gigDispatch }) => {
+  const insts = useGrabList("insts");
 
   const displayableExtras = insts.map((instrument) => (
-    <InstButton key={insts.indexOf(instrument)} instrument={instrument} />
+    <InstButton
+      key={insts.indexOf(instrument)}
+      instrument={instrument.name}
+      instId={instrument.id}
+      parts={parts}
+      gigDispatch={gigDispatch}
+    />
   ));
 
-  const classNames = visible
-    ? `${styles.outerContainer} ${styles.visible}`
-    : styles.outerContainer;
-
-  return <div className={classNames}>{displayableExtras}</div>;
+  return <div className={styles.outerContainer}>{displayableExtras}</div>;
 };
 
 export default InstsDropDown;
-

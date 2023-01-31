@@ -23,7 +23,7 @@ const Gigs = () => {
           //   onClick={clicker}
           className={styles.li}
         >
-          {gig.title} 'cello'
+          {gig.venue} 
         </ListGroup.Item>
       ))
     : [];

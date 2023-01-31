@@ -9,6 +9,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 import styles from "./Players.module.css";
 import SortBar from "../sortBar/SortBar";
+
 const Players = () => {
   const [sortOption, setSortOption] = useState("last-name");
   const players = useGrabList("players");

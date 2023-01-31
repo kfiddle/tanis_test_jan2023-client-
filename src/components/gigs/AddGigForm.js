@@ -45,11 +45,12 @@ const initialGig = {
   venue: "",
   address: "",
   contactEmail: "",
-  contactPhone:'',
+  contactPhone: "",
   startHours: "",
   startMin: "",
   endHours: "",
   endMin: "",
+  parts: [],
 };
 
 const gigReducer = (state, action) => {
@@ -70,6 +71,8 @@ const gigReducer = (state, action) => {
       return { ...state, endHours: action.endHours };
     case "endMin":
       return { ...state, endMin: action.endMin };
+    case "parts":
+      return { ...state, parts: action.parts };
     // case "email":
     //   return { ...state, email: action.isValid };
 
@@ -80,6 +83,7 @@ const gigReducer = (state, action) => {
 
 const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const [gig, gigDispatch] = useReducer(gigReducer, initialGig);
+  const [error, setError] = useState(false)
   const [value, onChange] = useState(new Date());
   const [validForm, dispatch] = useReducer(validReducer, initialState);
   const pusher = usePush();
@@ -115,7 +119,10 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   };
 
   const checkForDelete = (event) => {
-    if (event.code === "Backspace" && gig.contactPhone[gig.contactPhone.length - 1] === "-") {
+    if (
+      event.code === "Backspace" &&
+      gig.contactPhone[gig.contactPhone.length - 1] === "-"
+    ) {
       return gigDispatch({
         type: "contactPhone",
         contactPhone: gig.contactPhone.slice(0, -1),
@@ -126,9 +133,17 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
 
   useEffect(() => {
     const sendUpGig = async () => {
-      console.log(gig);
+      const response = await pusher(gig, "gigs");
+      if (typeof response === "string") return setError(response);
+      console.log(response);
+
+      handleClose();
+
     };
-    if (submitClicked) sendUpGig();
+    if (submitClicked) {
+      sendUpGig();
+      // setSubmitClicked(false);
+    }
   }, [submitClicked, handleClose]);
 
   return (
@@ -166,7 +181,7 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
       </div>
 
       <div className={classes.instsDiv}>
-        <InstsDropDown />
+        <InstsDropDown parts={gig.parts} gigDispatch={gigDispatch} />
       </div>
 
       <InputText

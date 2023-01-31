@@ -2,7 +2,6 @@
     width: 55%;
     /* position: fixed;
     display: none;
-    
     top: 45vh;
     right: -25vw;
     margin-left: 10vw; */
@@ -10,7 +9,7 @@
     overflow: auto;
   }
   
-  .visible {
+  /* .visible {
     display: block;
-  }
+  } */
   
