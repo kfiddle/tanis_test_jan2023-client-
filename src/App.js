@@ -16,7 +16,7 @@ import { instsActions } from "./redux/Insts";
 import useGrabList from "./hooks/useGrabList";
 
 import Players from "./components/players/Players";
-import Gigs from "./components/gigs/Gigs";
+import Gigs from "./components/gigs/gigs/Gigs";
 import Insts from "./components/instruments/Insts";
 
 import Layout from "./components/UI/Layout";

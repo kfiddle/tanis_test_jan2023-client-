@@ -8,14 +8,15 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Overlay from "react-bootstrap/esm/Overlay.js";
 import Popover from "react-bootstrap/Popover";
 
-import InputText from "../forms/InputText.js";
-import FoneInput from "../forms/FoneInput";
+import InputText from "../../forms/InputText.js";
+import FoneInput from "../../forms/FoneInput";
 
-import usePush from "../../hooks/usePush.js";
+import usePush from "../../../hooks/usePush.js";
 
 import classes from "./AddGigForm.module.css";
 import InstsDropDown from "./InstsDropDown.js";
 import TimeInput from "./TimeInput.js";
+import Textarea from "../../forms/Textarea.js";
 
 const initialState = {
   venue: true,
@@ -44,14 +45,15 @@ const validReducer = (state, action) => {
 const initialGig = {
   venue: "",
   address: "",
-  date: "",
+  parts: [],
+  date: new Date(),
   startHours: "",
   startMin: "",
   endHours: "",
   endMin: "",
   contactEmail: "",
   contactPhone: "",
-  parts: [],
+  notes:'',
 };
 
 const gigReducer = (state, action) => {
@@ -76,6 +78,8 @@ const gigReducer = (state, action) => {
       return { ...state, endMin: action.endMin };
     case "parts":
       return { ...state, parts: action.parts };
+    case "notes":
+      return { ...state, notes: action.notes };
     // case "email":
     //   return { ...state, email: action.isValid };
 
@@ -170,7 +174,8 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
 
       <div className={classes.calendarDiv}>
         <Calendar
-          value={dateValue}
+          // value={dateValue}
+          value={gig.date}
           className={classes.calendar}
           // onChange={dateChanger}
           onChange={(event) => dateHandler(event)}
@@ -208,6 +213,13 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
         onChange={formatFone}
         keyDown={checkForDelete}
         value={gig.contactPhone}
+      />
+
+      <Textarea
+        label="notes"
+        onChange={(event) =>
+          gigDispatch({ type: "notes", notes: event.target.value })
+        }
       />
     </form>
   );

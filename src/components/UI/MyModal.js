@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import * as Constants from "../constants/Constants";
 
 import AddPlayerForm from "../players/AddPlayerForm";
-import AddGigForm from "../gigs/AddGigForm";
+import AddGigForm from "../gigs/addGigForm/AddGigForm";
 import AddInstForm from "../instruments/AddInstForm";
 
 const MyModal = ({ handleCloser, formType, fullscreen }) => {

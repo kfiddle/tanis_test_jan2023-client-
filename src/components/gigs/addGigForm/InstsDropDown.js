@@ -1,5 +1,5 @@
 import InstButton from "./InstButton";
-import useGrabList from "../../hooks/useGrabList";
+import useGrabList from "../../../hooks/useGrabList";
 
 import styles from "./InstsDropDown.module.css";
 
