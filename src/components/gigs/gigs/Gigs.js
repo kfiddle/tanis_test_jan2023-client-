@@ -16,17 +16,18 @@ import SortBar from "../../sortBar/SortBar";
 const Gigs = () => {
   const gigs = useGrabList("gigs");
 
+  const clicker = (gig) => () => console.log(gig)
+
   const displayableGigs = gigs
     ? gigs.map((gig, idx) => (
-        // <ListGroup.Item
-        //   key={idx}
-        //   action
-        //   // onClick={clicker}
-        //   className={styles.li}
-        // >
-        //   {gig.venue}
-        // </ListGroup.Item>
-        <Gig key={idx} gig={gig} />
+        <ListGroup.Item
+          key={idx}
+          action
+          onClick={clicker(gig)}
+          className={styles.li}
+        >
+          {gig.venue}
+        </ListGroup.Item>
       ))
     : [];
 
@@ -34,7 +35,6 @@ const Gigs = () => {
     <Card>
       {/* <SortBar sorter={sorter} options={options} /> */}
       <ListGroup>{displayableGigs}</ListGroup>
-      <Gig />
     </Card>
   );
 };
