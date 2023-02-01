@@ -1,17 +1,25 @@
 .outerContainer {
   display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 5rem;
 }
 
 .bigScreenGigs {
-  height: 60vh;
+  height: 80vh;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 5px;
-  margin-left: 3rem;
-  width: 30%;
+  margin-left: 5rem;
+}
+
+.gigDeetsCard {
+  height: 80vh;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 5px;
+  margin-right: 5rem;
+  padding: 2rem;
 }
 
 .list {
   overflow: auto;
-  max-height: 60vh;
+  max-height: 80vh;
   transition: linear 0.2s;
 }
 
@@ -19,7 +27,13 @@
   display: flex;
 }
 
+.clickedLi {
+  display: flex;
+  color: red;
+}
+
 .dateDiv {
+  width: 25%;
   margin-right: 1rem;
 }
 
