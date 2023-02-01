@@ -47,8 +47,8 @@ function MainNavigation() {
                 <h3>PLAYERS</h3>
               </NavLink>
               {/* </Nav.Link> */}
-              <NavLink to={"/instruments"} style={linkStyle}>
-                <h3>INSTRUMENTS</h3>
+              <NavLink to={"/notifications"} style={linkStyle}>
+                <h3>NOTIFICATIONS</h3>
               </NavLink>
               <NavDropdown title="ADD" id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={handleShow("player")}>
@@ -60,9 +60,10 @@ function MainNavigation() {
                 <NavDropdown.Item onClick={handleShow("instrument")}>
                   <h4>INSTRUMENT</h4>
                 </NavDropdown.Item>
-                {/* <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                {/* <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item> */}
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
+              <NavLink to={"/instruments"} style={linkStyle}>ALL INSTRUMENTS</NavLink>
+              {/* <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item> */}
               </NavDropdown>

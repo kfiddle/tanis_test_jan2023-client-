@@ -1,0 +1,27 @@
+.outerContainer {
+  display: grid;
+}
+
+.bigScreenGigs {
+  height: 60vh;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 5px;
+  margin-left: 3rem;
+  width: 30%;
+}
+
+.list {
+  overflow: auto;
+  max-height: 60vh;
+  transition: linear 0.2s;
+}
+
+.li {
+  display: flex;
+}
+
+.dateDiv {
+  margin-right: 1rem;
+}
+
+.venueDiv {
+}

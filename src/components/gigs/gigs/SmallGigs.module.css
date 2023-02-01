@@ -1,0 +1,15 @@
+.li {
+  display: flex;
+}
+
+.dateDiv {
+  margin-right: 1rem;
+}
+
+.venueDiv {
+}
+
+.bigScreenGigs {
+  margin-left: 3rem;
+  width: 30%;
+}
