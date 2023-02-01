@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { useEffect } from "react";
+import { server } from "./components/utils/WhichServer";
 
 import {
   BrowserRouter as Router,
@@ -11,8 +12,10 @@ import {
 } from "react-router-dom";
 
 import { useMediaQuery } from "react-responsive";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { gigsActions } from "./redux/Gigs";
 import { instsActions } from "./redux/Insts";
+import { refreshActions } from "./redux/Refresh";
 
 import useGrabList from "./hooks/useGrabList";
 
@@ -26,8 +29,31 @@ import LargeGigs from "./components/gigs/gigs/LargeGigs";
 
 function App() {
   const dispatch = useDispatch();
-  const allInsts = useGrabList("insts");
-  dispatch(instsActions.refresh(allInsts));
+  const refreshFlag = useSelector((state) => state.refresh);
+
+  useEffect(() => {
+    const replenishInsts = async () => {
+      const response = await fetch(server + "insts");
+      if (response.ok) {
+        const jsonedList = await response.json();
+        dispatch(instsActions.refresh(jsonedList.insts));
+      }
+    };
+
+    const replenishGigs = async () => {
+      const response = await fetch(server + "gigs");
+      if (response.ok) {
+        const jsonedList = await response.json();
+        dispatch(gigsActions.refresh(jsonedList.gigs));
+      }
+    };
+
+    if (refreshFlag) {
+      replenishInsts();
+      replenishGigs();
+      dispatch(refreshActions.toggle(false));
+    }
+  }, [refreshFlag]);
 
   const isSmall = useMediaQuery({ query: "(max-width: 1224px)" });
 

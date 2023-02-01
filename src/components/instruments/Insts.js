@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { server } from "../utils/WhichServer";
-
+import { useSelector } from "react-redux";
 import useGrabList from "../../hooks/useGrabList";
 
 import Card from "react-bootstrap/Card";
@@ -11,7 +10,7 @@ import styles from "./Insts.module.css";
 import SortBar from "../sortBar/SortBar";
 
 const Insts = () => {
-  const insts = useGrabList("insts");
+  const insts = useSelector((state) => state.insts.allInsts);
 
   const clicker = (inst) => () => console.log(inst);
 

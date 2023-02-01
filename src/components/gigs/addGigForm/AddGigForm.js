@@ -4,9 +4,8 @@ import validator from "validator";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Overlay from "react-bootstrap/esm/Overlay.js";
-import Popover from "react-bootstrap/Popover";
+import { useDispatch } from "react-redux";
+import { refreshActions } from "../../../redux/Refresh.js";
 
 import InputText from "../../forms/InputText.js";
 import FoneInput from "../../forms/FoneInput";
@@ -53,7 +52,7 @@ const initialGig = {
   endMin: "",
   contactEmail: "",
   contactPhone: "",
-  notes:'',
+  notes: "",
 };
 
 const gigReducer = (state, action) => {
@@ -94,6 +93,7 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const [dateValue, dateChanger] = useState(new Date());
   const [validForm, dispatch] = useReducer(validReducer, initialState);
   const pusher = usePush();
+  const refreshDispatch = useDispatch();
 
   const timeSetter = (clockHand) => (event) => {
     if (isNaN(event.nativeEvent.data) || event.target.value.length === 3) {
@@ -144,9 +144,10 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
 
   useEffect(() => {
     const sendUpGig = async () => {
+      setSubmitClicked(false);
       const response = await pusher(gig, "gigs");
       if (typeof response === "string") return setError(response);
-      console.log(response);
+      refreshDispatch(refreshActions.toggle(true));
       handleClose();
     };
     if (submitClicked) {

@@ -20,7 +20,7 @@ const MyModal = ({ handleCloser, formType, fullscreen }) => {
 
   return (
     <>
-      <Modal show={show}  fullscreen={fullscreen} onHide={handleClose}>
+      <Modal show={show} fullscreen={fullscreen} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add {addingEntity} </Modal.Title>
         </Modal.Header>
@@ -53,6 +53,7 @@ const MyModal = ({ handleCloser, formType, fullscreen }) => {
           <Button variant="secondary" onClick={handleClose}>
             <h5>Close</h5>
           </Button>
+
           <Button variant="primary" onClick={submitClicker}>
             <h5>Submit {addingEntity}</h5>
           </Button>

@@ -1,13 +1,14 @@
 import { Fragment } from "react";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
+import { useSelector } from "react-redux";
 
 import useGrabList from "../../../hooks/useGrabList";
 
 import styles from "./LargeGigs.module.css";
 
 const LargeGigs = () => {
-  const gigs = useGrabList("gigs");
+  const gigs = useSelector((state) => state.gigs.allGigs);
 
   const clicker = (gig) => () => console.log(gig);
 
