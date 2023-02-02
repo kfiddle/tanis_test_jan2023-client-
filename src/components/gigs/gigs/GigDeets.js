@@ -8,13 +8,19 @@ import styles from "./GigDeets.module.css";
 
 const GigDeets = ({ gig }) => {
   const { venue, address, date, parts } = gig;
-  const [instClicked, setInstClicked] = useState(false);
-
-  const showOffCampus = () => setInstClicked((previous) => !previous);
+  const [instClicked, setInstClicked] = useState({ instName: null, idx: null });
 
   const displayParts = parts.map((part, idx) => (
-    <ListGroup.Item key={idx} action onClick={showOffCampus}>
-      {part.instName}
+    <ListGroup.Item
+      key={idx}
+      action
+      onClick={() => setInstClicked({ instName: part.instName, idx })}
+    >
+      <p
+        // style={instClicked.idx === idx ? { color: "blue" } : { color: "black" }}
+      >
+        {part.instName}
+      </p>
     </ListGroup.Item>
   ));
 
@@ -28,8 +34,14 @@ const GigDeets = ({ gig }) => {
         </Card.Body>
       </Card>
 
-      <Offcanvas show={instClicked} onHide={showOffCampus} placement="end">
-        Hello
+      <Offcanvas
+        show={instClicked !== null ? true : false}
+        onHide={() => setInstClicked(null)}
+        placement="end"
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>{instClicked.instName}</Offcanvas.Title>
+        </Offcanvas.Header>
       </Offcanvas>
     </Fragment>
   );

@@ -35,7 +35,12 @@ const LargeGigs = () => {
             onClick={clicker(gig)}
             className={styles.li}
           >
-            <div className={styles.dateDiv}>{displayDate}</div>
+            <div
+              className={styles.dateDiv}
+              style={clickedGig === gig ? { color: "blue" } : { color: "black" }}
+            >
+              {displayDate}
+            </div>
             <div className={styles.venueDiv}>{gig.venue}</div>
           </ListGroup.Item>
         );
