@@ -3,7 +3,7 @@ import useGrabList from "../../../hooks/useGrabList";
 
 import styles from "./InstsDropDown.module.css";
 
-const InstsDropDown = ({ parts, gigDispatch }) => {
+const InstsDropDown = ({ instIds, gigDispatch }) => {
   const insts = useGrabList("insts");
 
   const displayableExtras = insts.map((instrument) => (
@@ -11,7 +11,7 @@ const InstsDropDown = ({ parts, gigDispatch }) => {
       key={insts.indexOf(instrument)}
       instrument={instrument.name}
       instId={instrument.id}
-      parts={parts}
+      instIds={instIds}
       gigDispatch={gigDispatch}
     />
   ));

@@ -44,7 +44,7 @@ const validReducer = (state, action) => {
 const initialGig = {
   venue: "",
   address: "",
-  parts: [],
+  instIds: [],
   date: new Date(),
   startHours: "",
   startMin: "",
@@ -75,8 +75,8 @@ const gigReducer = (state, action) => {
       return { ...state, endHours: action.endHours };
     case "endMin":
       return { ...state, endMin: action.endMin };
-    case "parts":
-      return { ...state, parts: action.parts };
+    case "instIds":
+      return { ...state, instIds: action.instIds };
     case "notes":
       return { ...state, notes: action.notes };
     // case "email":
@@ -192,7 +192,7 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
       </div>
 
       <div className={classes.instsDiv}>
-        <InstsDropDown parts={gig.parts} gigDispatch={gigDispatch} />
+        <InstsDropDown instIds={gig.instIds} gigDispatch={gigDispatch} />
       </div>
 
       <InputText

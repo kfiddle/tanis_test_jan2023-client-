@@ -2,33 +2,33 @@ import { useState, useEffect, useContext } from "react";
 
 import styles from "./InstButton.module.css";
 
-const InstButton = ({ instrument, instId, parts, gigDispatch }) => {
+const InstButton = ({ instrument, instId, instIds, gigDispatch }) => {
   const [clicked, setClicked] = useState(false);
   const [localNumber, setLocalNumber] = useState(0);
 
   const clickHandler = () => {
-    if (!parts.includes(instId) && !clicked) {
-      gigDispatch({ type: "parts", parts: [...parts, instId] });
+    if (!instIds.includes(instId) && !clicked) {
+      gigDispatch({ type: "instIds", instIds: [...instIds, instId] });
     }
 
-    if (parts.includes(instId) && clicked) {
+    if (instIds.includes(instId) && clicked) {
       gigDispatch({
-        type: "parts",
-        parts: parts.filter((id) => id !== instId),
+        type: "instIds",
+        instIds: instIds.filter((id) => id !== instId),
       });
     }
     setClicked((previous) => !previous);
   };
 
   const addButtonClicker = () => {
-    gigDispatch({ type: "parts", parts: [...parts, instId] });
+    gigDispatch({ type: "instIds", instIds: [...instIds, instId] });
   };
 
   const subtractButtonClicker = () => {
-    const tempParts = parts;
+    const tempParts = instIds;
     const index = tempParts.findIndex((id) => id === instId);
     tempParts.splice(index, 1);
-    gigDispatch({ type: "parts", parts: tempParts });
+    gigDispatch({ type: "instIds", instIds: tempParts });
     setLocalNumber((previous) => previous - 1);
   };
 
@@ -55,7 +55,7 @@ const InstButton = ({ instrument, instId, parts, gigDispatch }) => {
           +
         </button>{" "}
         <div className={styles.numberDiv}>
-          {parts.filter((id) => id === instId).length}
+          {instIds.filter((id) => id === instId).length}
         </div>
       </div>
 

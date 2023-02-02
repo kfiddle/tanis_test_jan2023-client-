@@ -50,13 +50,6 @@ const LargeGigs = () => {
       </Card>
 
       {clickedGig && <GigDeets gig={clickedGig} />}
-      {/* <Card className={styles.gigDeetsCard}>
-        <Card.Header>
-          {clickedGig && new Date(clickedGig.date).toDateString()}
-        </Card.Header>
-        <Card.Title>{clickedGig && clickedGig.venue}</Card.Title>
-        <Card.Body>{clickedGig && <GigDeets gig={clickedGig} />}</Card.Body>
-      </Card> */}
     </div>
   );
 };
