@@ -1,8 +1,11 @@
 import { useEffect, useReducer, useState } from "react";
-import { useSelector } from "react-redux";
+
+import { useSelector, useDispatch } from "react-redux";
 
 import validator from "validator";
 import { Hint } from "react-autocomplete-hint";
+
+import { refreshActions } from "../../redux/Refresh.js";
 
 import InputText from "../forms/InputText.js";
 import FoneInput from "../forms/FoneInput";
@@ -41,6 +44,7 @@ const AddPlayerForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const fullInstsList = useSelector((state) => state.insts.allInsts);
   const allInsts = fullInstsList.map((inst) => inst.name);
 
+  const refreshDispatch = useDispatch();
   const pusher = usePush();
 
   const formIsValid = () => {
@@ -89,6 +93,7 @@ const AddPlayerForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
       const response = await pusher(playerToSend, "players");
       if (typeof response === "string") return setError(response);
       console.log(response);
+      refreshDispatch(refreshActions.toggle(true));
 
       handleClose();
     };

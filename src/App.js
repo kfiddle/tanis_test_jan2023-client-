@@ -13,8 +13,9 @@ import {
 
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
-import { gigsActions } from "./redux/Gigs";
 import { instsActions } from "./redux/Insts";
+import { playersActions } from "./redux/Players";
+import { gigsActions } from "./redux/Gigs";
 import { refreshActions } from "./redux/Refresh";
 
 import useGrabList from "./hooks/useGrabList";
@@ -48,9 +49,18 @@ function App() {
       }
     };
 
+    const replenishPlayers = async () => {
+      const response = await fetch(server + "players");
+      if (response.ok) {
+        const jsonedList = await response.json();
+        dispatch(playersActions.refresh(jsonedList.players));
+      }
+    };
+
     if (refreshFlag) {
       replenishInsts();
       replenishGigs();
+      replenishPlayers();
       dispatch(refreshActions.toggle(false));
     }
   }, [refreshFlag]);

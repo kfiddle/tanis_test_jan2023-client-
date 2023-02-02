@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { useSelector } from "react-redux";
+
 import { server } from "../utils/WhichServer";
 
 import useGrabList from "../../hooks/useGrabList";
@@ -12,7 +14,10 @@ import SortBar from "../sortBar/SortBar";
 
 const Players = () => {
   const [sortOption, setSortOption] = useState("last-name");
-  const players = useGrabList("players");
+  // const players = useGrabList("players");
+
+  const players = useSelector((state) => state.players.allPlayers);
+  console.log(players)
   const clicker = () => console.log("player");
 
   const options = ["LAST NAME", "INSTRUMENT"];
@@ -22,7 +27,6 @@ const Players = () => {
     await fetch(server + "players/last-name");
   };
 
-
   const displayablePlayers = players
     ? players.map((player, idx) => (
         <ListGroup.Item
@@ -31,7 +35,7 @@ const Players = () => {
           onClick={clicker}
           className={styles.li}
         >
-          {player.lName} {player.fName} 
+          {player.lName} {player.fName}
         </ListGroup.Item>
       ))
     : [];
