@@ -17,7 +17,6 @@ const Players = () => {
   // const players = useGrabList("players");
 
   const players = useSelector((state) => state.players.allPlayers);
-  console.log(players)
   const clicker = () => console.log("player");
 
   const options = ["LAST NAME", "INSTRUMENT"];
