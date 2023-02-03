@@ -20,7 +20,7 @@ const GigDeets = ({ gig }) => {
       <p
       // style={instClicked.idx === idx ? { color: "blue" } : { color: "black" }}
       >
-        {part.instName}
+        {part.inst.name}
       </p>
     </ListGroup.Item>
   ));

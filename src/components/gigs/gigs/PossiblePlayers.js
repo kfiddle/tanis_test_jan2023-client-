@@ -11,7 +11,7 @@ const PossiblePlayers = ({ part, setOpenCanvas }) => {
     <Offcanvas show={true} onHide={() => setOpenCanvas(false)} placement="end">
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>
-          <h2>{part.instName}</h2>
+          <h2>{part.inst.name}</h2>
         </Offcanvas.Title>
       </Offcanvas.Header>
       <ListGroup>

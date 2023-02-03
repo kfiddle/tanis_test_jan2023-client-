@@ -37,11 +37,20 @@ const LargeGigs = () => {
           >
             <div
               className={styles.dateDiv}
-              style={clickedGig === gig ? { color: "blue" } : { color: "black" }}
+              style={
+                clickedGig === gig ? { color: "blue" } : { color: "black" }
+              }
             >
               {displayDate}
             </div>
-            <div className={styles.venueDiv}>{gig.venue}</div>
+            <div
+              className={styles.venueDiv}
+              style={
+                clickedGig === gig ? { color: "blue" } : { color: "black" }
+              }
+            >
+              {gig.venue}
+            </div>
           </ListGroup.Item>
         );
       })
