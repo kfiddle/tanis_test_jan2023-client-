@@ -7,7 +7,7 @@ import useSimpleFetch from "../../../hooks/useSimpleFetch";
 import styles from "./PossiblePlayers.module.css";
 import EmailPossibles from "./EmailPossibles";
 
-const PossiblePlayers = ({ part, setOpenCanvas }) => {
+const PossiblePlayers = ({ part, gig, setOpenCanvas }) => {
   const [possibles, setPossibles] = useState([]);
   const [clickedPlayers, setClickedPlayers] = useState([]);
   const [emailModalOpen, setEmailModalOpen] = useState(false);
@@ -20,6 +20,8 @@ const PossiblePlayers = ({ part, setOpenCanvas }) => {
       if (response) setPossibles(response.inst.players);
     };
     getPossibles();
+
+
   }, []);
 
   const clickHandler = (player) => () => {
@@ -72,7 +74,7 @@ const PossiblePlayers = ({ part, setOpenCanvas }) => {
           )}
         </ListGroup>
       </Offcanvas>
-      {emailModalOpen && <EmailPossibles modalCloser={modalCloser} />}
+      {emailModalOpen && <EmailPossibles modalCloser={modalCloser} possibles={clickedPlayers} gig={gig} />}
     </Fragment>
   );
 };

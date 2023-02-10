@@ -36,7 +36,11 @@ const GigDeets = ({ gig }) => {
       </Card>
 
       {openCanvas && (
-        <PossiblePlayers part={partClicked} setOpenCanvas={setOpenCanvas} />
+        <PossiblePlayers
+          part={partClicked}
+          setOpenCanvas={setOpenCanvas}
+          gig={gig}
+        />
       )}
     </Fragment>
   );
