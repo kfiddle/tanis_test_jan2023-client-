@@ -116,11 +116,13 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
     gigDispatch({ type: clockHand, [clockHand]: minutes });
   };
 
+  //
   const formatPay = (event) => {
-    let enteredPay = event.target.value;
     if (isNaN(event.nativeEvent.data)) {
       return;
     }
+    let enteredPay = event.target.value;
+
     return gigDispatch({ type: "pay", pay: enteredPay });
   };
 
@@ -168,6 +170,8 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
     }
   }, [submitClicked, handleClose]);
 
+ 
+
   if (isSmall) {
     return (
       <form className={classes.innerContainer}>
@@ -208,21 +212,10 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
           <InstsDropDown instIds={gig.instIds} gigDispatch={gigDispatch} />
         </div>
 
-        <InputText
-          label={"Compensation per player?"}
-          isValid={true}
-          // onChange={(event) => {
-          //   setSubmitClicked(false);
-          //   // dispatch({ type: "pay", isValid: true });
-          //   gigDispatch({
-          //     type: "pay",
-          //     pay: event.target.value,
-          //   });
-          // }}
-          onChange={formatPay}
-          // keyDown={checkForDelete}
-          value={gig.pay}
-        />
+        <div className={classes.control}>
+          <label className={classes.label}>Compensation per player?</label>
+          <input className={classes.input} type={"text"} onChange={formatPay} value={gig.pay}></input>
+        </div>
 
         <InputText
           label={"Contact Email"}
@@ -276,10 +269,8 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
 
         <div className={classes.calendarDiv}>
           <Calendar
-            // value={dateValue}
             value={gig.date}
             className={classes.calendar}
-            // onChange={dateChanger}
             onChange={(event) => dateHandler(event)}
           />
         </div>
