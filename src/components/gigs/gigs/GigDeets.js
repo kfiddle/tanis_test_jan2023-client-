@@ -10,17 +10,21 @@ const GigDeets = ({ gig }) => {
   const [openCanvas, setOpenCanvas] = useState(false);
   const [partClicked, setPartClicked] = useState(null);
 
+
   const partClicker = (part, idx) => () => {
     setPartClicked(part);
     setOpenCanvas(true);
+    console.log(part)
   };
+
 
   const displayParts = parts.map((part, idx) => (
     <ListGroup.Item key={idx} action onClick={partClicker(part, idx)}>
       <p
-      // style={instClicked.idx === idx ? { color: "blue" } : { color: "black" }}
       >
         {part.inst.name}
+        {part.player !== null ? part.player.fName : ''}
+        
       </p>
     </ListGroup.Item>
   ));
