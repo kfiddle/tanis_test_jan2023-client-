@@ -1,10 +1,13 @@
 import { useState, useEffect, useContext } from "react";
+import { useMediaQuery } from "react-responsive";
 
 import styles from "./InstButton.module.css";
 
 const InstButton = ({ instrument, instId, instIds, gigDispatch }) => {
   const [clicked, setClicked] = useState(false);
   const [localNumber, setLocalNumber] = useState(0);
+
+  const isSmall = useMediaQuery({ query: "(max-width: 1224px)" });
 
   const clickHandler = () => {
     if (!instIds.includes(instId) && !clicked) {

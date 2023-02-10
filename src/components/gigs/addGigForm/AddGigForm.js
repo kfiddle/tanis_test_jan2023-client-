@@ -4,6 +4,8 @@ import validator from "validator";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
+import { useMediaQuery } from "react-responsive";
+
 import { useDispatch } from "react-redux";
 import { refreshActions } from "../../../redux/Refresh.js";
 
@@ -45,6 +47,7 @@ const initialGig = {
   venue: "",
   address: "",
   instIds: [],
+  pay: "",
   date: new Date(),
   startHours: "",
   startMin: "",
@@ -77,10 +80,10 @@ const gigReducer = (state, action) => {
       return { ...state, endMin: action.endMin };
     case "instIds":
       return { ...state, instIds: action.instIds };
+    case "pay":
+      return { ...state, pay: action.pay };
     case "notes":
       return { ...state, notes: action.notes };
-    // case "email":
-    //   return { ...state, email: action.isValid };
 
     case "reset":
       return { ...initialState };
@@ -94,6 +97,8 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const [validForm, dispatch] = useReducer(validReducer, initialState);
   const pusher = usePush();
   const refreshDispatch = useDispatch();
+
+  const isSmall = useMediaQuery({ query: "(max-width: 1224px)" });
 
   const timeSetter = (clockHand) => (event) => {
     if (isNaN(event.nativeEvent.data) || event.target.value.length === 3) {
@@ -109,6 +114,14 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
     if (minutes <= 9 && minutes.length > 0 && minutes[0] !== "0")
       return gigDispatch({ type: clockHand, [clockHand]: "0" + minutes });
     gigDispatch({ type: clockHand, [clockHand]: minutes });
+  };
+
+  const formatPay = (event) => {
+    let enteredPay = event.target.value;
+    if (isNaN(event.nativeEvent.data)) {
+      return;
+    }
+    return gigDispatch({ type: "pay", pay: enteredPay });
   };
 
   const formatFone = (event) => {
@@ -155,75 +168,164 @@ const AddGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
     }
   }, [submitClicked, handleClose]);
 
-  return (
-    <form className={classes.innerContainer}>
-      <InputText
-        isValid={validForm.venue}
-        label={"Venue"}
-        onChange={(event) =>
-          gigDispatch({ type: "venue", venue: event.target.value })
-        }
-      />
-
-      <InputText
-        label={"Address"}
-        isValid
-        onChange={(event) =>
-          gigDispatch({ type: "address", address: event.target.value })
-        }
-      />
-
-      <div className={classes.calendarDiv}>
-        <Calendar
-          // value={dateValue}
-          value={gig.date}
-          className={classes.calendar}
-          // onChange={dateChanger}
-          onChange={(event) => dateHandler(event)}
+  if (isSmall) {
+    return (
+      <form className={classes.innerContainer}>
+        <InputText
+          isValid={validForm.venue}
+          label={"Venue"}
+          onChange={(event) =>
+            gigDispatch({ type: "venue", venue: event.target.value })
+          }
         />
-      </div>
 
-      <div className={classes.timeInputDiv}>
-        <TimeInput
-          timeSetter={timeSetter}
-          minuteFormer={minuteFormer}
-          gig={gig}
+        <InputText
+          label={"Address"}
+          isValid
+          onChange={(event) =>
+            gigDispatch({ type: "address", address: event.target.value })
+          }
         />
-      </div>
 
-      <div className={classes.instsDiv}>
-        <InstsDropDown instIds={gig.instIds} gigDispatch={gigDispatch} />
-      </div>
+        <div className={classes.calendarDiv}>
+          <Calendar
+            value={gig.date}
+            className={classes.calendar}
+            // onChange={dateChanger}
+            onChange={(event) => dateHandler(event)}
+          />
+        </div>
 
-      <InputText
-        label={"Contact Email"}
-        isValid={validForm.email}
-        onChange={(event) => {
-          setSubmitClicked(false);
-          dispatch({ type: "email", isValid: true });
-          gigDispatch({
-            type: "contactEmail",
-            contactEmail: event.target.value,
-          });
-        }}
-      />
+        <div className={classes.timeInputDiv}>
+          <TimeInput
+            timeSetter={timeSetter}
+            minuteFormer={minuteFormer}
+            gig={gig}
+          />
+        </div>
 
-      <InputText
-        label={"Contact Phone"}
-        isValid={true}
-        onChange={formatFone}
-        keyDown={checkForDelete}
-        value={gig.contactPhone}
-      />
+        <div className={classes.instsDiv}>
+          <InstsDropDown instIds={gig.instIds} gigDispatch={gigDispatch} />
+        </div>
 
-      <Textarea
-        label="notes"
-        onChange={(event) =>
-          gigDispatch({ type: "notes", notes: event.target.value })
-        }
-      />
-    </form>
-  );
+        <InputText
+          label={"Compensation per player?"}
+          isValid={true}
+          // onChange={(event) => {
+          //   setSubmitClicked(false);
+          //   // dispatch({ type: "pay", isValid: true });
+          //   gigDispatch({
+          //     type: "pay",
+          //     pay: event.target.value,
+          //   });
+          // }}
+          onChange={formatPay}
+          // keyDown={checkForDelete}
+          value={gig.pay}
+        />
+
+        <InputText
+          label={"Contact Email"}
+          isValid={validForm.email}
+          onChange={(event) => {
+            setSubmitClicked(false);
+            dispatch({ type: "email", isValid: true });
+            gigDispatch({
+              type: "contactEmail",
+              contactEmail: event.target.value,
+            });
+          }}
+        />
+
+        <InputText
+          label={"Contact Phone"}
+          isValid={true}
+          onChange={formatFone}
+          keyDown={checkForDelete}
+          value={gig.contactPhone}
+        />
+
+        <Textarea
+          label="notes"
+          onChange={(event) =>
+            gigDispatch({ type: "notes", notes: event.target.value })
+          }
+        />
+      </form>
+    );
+  } else {
+    // large form is below
+
+    return (
+      <form className={classes.innerContainer}>
+        <InputText
+          isValid={validForm.venue}
+          label={"Venue"}
+          onChange={(event) =>
+            gigDispatch({ type: "venue", venue: event.target.value })
+          }
+        />
+
+        <InputText
+          label={"Address"}
+          isValid
+          onChange={(event) =>
+            gigDispatch({ type: "address", address: event.target.value })
+          }
+        />
+
+        <div className={classes.calendarDiv}>
+          <Calendar
+            // value={dateValue}
+            value={gig.date}
+            className={classes.calendar}
+            // onChange={dateChanger}
+            onChange={(event) => dateHandler(event)}
+          />
+        </div>
+
+        <div className={classes.timeInputDiv}>
+          <TimeInput
+            timeSetter={timeSetter}
+            minuteFormer={minuteFormer}
+            gig={gig}
+          />
+        </div>
+
+        <div className={classes.instsDiv}>
+          <InstsDropDown instIds={gig.instIds} gigDispatch={gigDispatch} />
+        </div>
+
+        <InputText
+          label={"Contact Email"}
+          isValid={validForm.email}
+          onChange={(event) => {
+            setSubmitClicked(false);
+            dispatch({ type: "email", isValid: true });
+            gigDispatch({
+              type: "contactEmail",
+              contactEmail: event.target.value,
+            });
+          }}
+        />
+
+        <InputText
+          label={"Contact Phone"}
+          isValid={true}
+          onChange={formatFone}
+          keyDown={checkForDelete}
+          value={gig.contactPhone}
+        />
+
+        <Textarea
+          label="notes"
+          onChange={(event) =>
+            gigDispatch({ type: "notes", notes: event.target.value })
+          }
+        />
+      </form>
+    );
+  }
 };
 
 export default AddGigForm;

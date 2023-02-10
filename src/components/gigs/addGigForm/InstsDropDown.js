@@ -1,10 +1,13 @@
 import InstButton from "./InstButton";
 import useGrabList from "../../../hooks/useGrabList";
 
+import { useMediaQuery } from "react-responsive";
+
 import styles from "./InstsDropDown.module.css";
 
 const InstsDropDown = ({ instIds, gigDispatch }) => {
   const insts = useGrabList("insts");
+  const isSmall = useMediaQuery({ query: "(max-width: 1224px)" });
 
   const displayableExtras = insts.map((instrument) => (
     <InstButton
@@ -16,7 +19,11 @@ const InstsDropDown = ({ instIds, gigDispatch }) => {
     />
   ));
 
-  return <div className={styles.outerContainer}>{displayableExtras}</div>;
+  if (isSmall) {
+    return <div className={styles.smallContainer}>{displayableExtras}</div>;
+  } else {
+    return <div className={styles.largeContainer}>{displayableExtras}</div>;
+  }
 };
 
 export default InstsDropDown;

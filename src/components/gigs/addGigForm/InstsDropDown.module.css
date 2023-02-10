@@ -1,11 +1,11 @@
-.outerContainer {
-    width: 55%;
+.smallContainer {
+    width: 100%;
     /* position: fixed;
     display: none;
     top: 45vh;
     right: -25vw;
     margin-left: 10vw; */
-    max-height: 20vh;
+    max-height: 40vh;
     overflow: auto;
   }
   
