@@ -8,6 +8,11 @@
     max-height: 40vh;
     overflow: auto;
   }
+
+  .largeContainer {
+    width: 50%;
+    margin-left: 5rem;
+  }
   
   /* .visible {
     display: block;
