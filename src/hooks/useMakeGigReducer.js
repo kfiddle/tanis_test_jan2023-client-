@@ -45,8 +45,6 @@ const gigReducer = (state, action) => {
 };
 
 const useMakeGigReducer = () => {
-  //   const [gig, gigDispatch] = useReducer(gigReducer, initialGig);
-
   return useReducer(gigReducer, initialGig);
 };
 
