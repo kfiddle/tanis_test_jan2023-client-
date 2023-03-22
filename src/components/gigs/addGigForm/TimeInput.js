@@ -1,4 +1,7 @@
 import { useState, useEffect, useContext, useReducer } from "react";
+
+import { useMediaQuery } from "react-responsive";
+
 import classes from "./TimeInput.module.css";
 
 const START_HOURS = "startHours";
@@ -7,6 +10,8 @@ const END_HOURS = "endHours";
 const END_MIN = "endMin";
 
 const TimeInput = ({ timeSetter, minuteFormer, gig }) => {
+  const isSmall = useMediaQuery({ query: "(max-width: 1224px)" });
+
   const timeShown = {
     startHours: gig.startHours,
     startMin: gig.startMin,
@@ -14,11 +19,11 @@ const TimeInput = ({ timeSetter, minuteFormer, gig }) => {
     endMin: gig.endMin,
   };
 
-  // const inputClasses =
+  const bothTimesHolder = isSmall ? classes.smallTimesHolder : classes.largeTimesHolder;
 
   return (
     <div className={classes.outerContainer}>
-      <div className={classes.bothTimesHolder}>
+      <div className={bothTimesHolder}>
         <div className={classes.bothTimesHolder}>
           <div className={`${classes.control} ${classes.timeDiv}`}>
             <label>Start Time</label>

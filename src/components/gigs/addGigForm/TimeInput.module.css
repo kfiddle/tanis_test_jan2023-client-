@@ -7,9 +7,12 @@
   width: 70%;
 }
 
-.bothTimesHolder {
+.smallTimesHolder {
   display: flex;
   width: 30%;
+}
+
+.largeTimesHolder {
 }
 
 .timeDiv {

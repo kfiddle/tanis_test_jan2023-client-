@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useMediaQuery } from "react-responsive";
 import { useSelector } from "react-redux";
 
-import useGrabList from "../../../hooks/useGrabList";
 
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -13,13 +11,20 @@ import styles from "./SmallGigs.module.css";
 
 
 const SmallGigs = () => {
-  const gigs = useGrabList("gigs");
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const gigs = useSelector((state) => state.gigs.allGigs);
+  const [clickedGig, setClickedGig] = useState();
+
+  const gigsCopy = [...gigs];
+  const sortedGigs = gigsCopy.sort((gig1, gig2) => {
+    if (gig1.date < gig2.date) return -1;
+    if (gig1.date > gig2.date) return 1;
+    return 0;
+  });
 
   const clicker = (gig) => () => console.log(gig);
 
-  const displayableGigs = gigs
-    ? gigs.map((gig, idx) => {
+  const displayableGigs = sortedGigs
+    ? sortedGigs.map((gig, idx) => {
         const displayDate = gig.date
           ? new Date(gig.date).toLocaleDateString()
           : "";
