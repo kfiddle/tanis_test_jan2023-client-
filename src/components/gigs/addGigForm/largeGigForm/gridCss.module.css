@@ -1,0 +1,27 @@
+.bigGrid {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 4;
+}
+
+.box1 {
+  background: red;
+}
+
+.box2 {
+  background: green;
+}
+
+.box3 {
+  background: rebeccapurple;
+}
+
+.box4 {
+  background: goldenrod;
+}
+
+.box5 {
+  grid-column: 1 / 3;
+  background: magenta;
+}

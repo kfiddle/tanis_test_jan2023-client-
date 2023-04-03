@@ -21,7 +21,8 @@ import InstsDropDown from "../InstsDropDown.js";
 import TimeInput from "../TimeInput.js";
 import Textarea from "../../../forms/Textarea.js";
 
-import classes from "./LargeGigForm.module.css";
+// import classes from "./LargeGigForm.module.css";
+import classes from "./gridCss.module.css";
 
 const LargeGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   const [gig, gigDispatch, timeSetter, minuteFormer, formatPay, dateHandler] =
@@ -47,18 +48,30 @@ const LargeGigForm = ({ submitClicked, setSubmitClicked, handleClose }) => {
   }, [submitClicked, handleClose]);
 
   return (
+    <div className={classes.bigGrid}>
+      <div className={classes.box1}>a</div>
+      <div className={classes.box2}>b</div>
+      <div className={classes.box3}>c</div>
+      <div className={classes.box4}>d</div>
+      <div className={classes.box5}>e</div>
+    </div>
+  );
+
+  return (
     <form className={classes.innerContainer}>
-      <InputText
-        width={"50%"}
-        isValid={validForm.venue}
-        label={"Venue"}
-        onChange={(event) =>
-          gigDispatch({ type: "venue", venue: event.target.value })
-        }
-      />
+      <div className={classes.venueBox}>
+        <InputText
+          label={"Venue"}
+          isValid={validForm.venue}
+          onChange={(event) =>
+            gigDispatch({ type: "venue", venue: event.target.value })
+          }
+        />
+      </div>
 
       <InputText
         label={"Address"}
+        // width={"50%"}
         isValid
         onChange={(event) =>
           gigDispatch({ type: "address", address: event.target.value })

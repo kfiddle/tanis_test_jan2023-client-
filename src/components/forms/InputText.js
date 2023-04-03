@@ -26,7 +26,7 @@ const InputText = React.forwardRef((props, ref) => {
       ></input>
     </div>
   ) : (
-    <div className={classes.control}>
+    <div style={{ width }} className={classes.control}>
       <label className={classes.label}>{label}</label>
       <input
         className={inputClasses}
